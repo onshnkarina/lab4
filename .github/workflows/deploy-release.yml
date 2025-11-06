@@ -1,0 +1,40 @@
+name: Publish version on release
+
+on:
+  release:
+    types: [published]   # Запускается при создании нового релиза
+
+permissions:
+  contents: write        # Разрешаем пушить изменения
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare version folder
+        run: |
+          VERSION="v${{ github.event.release.tag_name }}"
+          mkdir -p site/$VERSION
+          cp -R en ru index.html site/$VERSION/
+
+      - name: Switch to gh-pages branch
+        run: |
+          git fetch
+          git checkout gh-pages
+
+      - name: Copy versioned site to gh-pages
+        run: |
+          VERSION="v${{ github.event.release.tag_name }}"
+          cp -R site/$VERSION $VERSION
+
+      - name: Commit and push versioned site
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Add version ${{ github.event.release.tag_name }}"
+          git push origin gh-pages
