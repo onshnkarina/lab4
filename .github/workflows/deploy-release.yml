@@ -2,34 +2,28 @@ name: Publish version on release
 
 on:
   release:
-    types: [published]   # Запуск только при публикации релиза
+    types: [published]   
 
 permissions:
-  contents: write        # Разрешение на пуш
+  contents: write       
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Switch to gh-pages branch
-        run: |
-          git fetch
-          git checkout gh-pages
-
-      - name: Copy website to version folder
+      - name: Prepare version folder
         run: |
           VERSION="v${{ github.event.release.tag_name }}"
-          mkdir -p $VERSION
-          cp -R index.html en ru $VERSION/
+          mkdir -p _site/$VERSION
+          cp -R index.html en ru _site/$VERSION/
 
-      - name: Commit and push versioned site
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add .
-          git commit -m "Add version $VERSION" || echo "No changes to commit"
-          git push origin gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          keep_files: true
