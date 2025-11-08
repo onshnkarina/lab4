@@ -18,10 +18,11 @@ jobs:
 
   check:
       runs-on: ubuntu-latest
-        
+      needs: setup  
       steps:
+      - name: ch
+        run: echo "Проверка"
       - name: Files view
         run: dir -p ./
-      
-          
+        
           
