@@ -1,31 +1,29 @@
-name: DOc
-
+name: doc
 on:
   push:
     branches: [main]
 
 jobs:
-    setup:
-        runs-on: ubuntu-latest
+  setup:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/cheackout@v3
+    
+    - name: Set
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
 
-        steps:
+  check:
+      runs-on: ubuntu-latest
         
-        -name: Checkout
-        uses: actions/cheackout@v3
+      steps:
+      - name: Files view
+        run: dir ./*
           
-        -name: Set
-        uses: actions/setup-python@v4
-        with:
-            python-version: "3.9"
-
-    check:
-        runs-on: ubuntu-latest
-        
-        steps:
-          -name: Files view
-          run: dir ./*
-          
-          -name: Check succes
-          needs: setup
-          run: echo "all good"
+      - name: Check succes
+        needs: setup
+        run: echo "all good"
           
