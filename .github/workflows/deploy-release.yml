@@ -9,17 +9,18 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          -name: Checkout
-          uses: actions/cheackout@v3
-
-        -name: Setups
+        
+        -name: Checkout
+        uses: actions/cheackout@v3
+          
+        -name: Set
         uses: actions/setup-python@v4
         with:
-              python-version: "3.9"
+            python-version: "3.9"
 
     check:
         runs-on: ubuntu-latest
-
+        
         steps:
           -name: Files view
           run: dir ./*
