@@ -21,6 +21,7 @@ jobs:
         
       steps:
       - name: Files view
-        run: dir
+        run: dir *
+      
           
           
