@@ -1,29 +1,30 @@
-name: Publish version on release
+name: DOc
 
 on:
-  release:
-    types: [published]   
-
-permissions:
-  contents: write       
+  push:
+    branches: [main]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    setup:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        steps:
+          -name: Checkout
+          uses: actions/cheackout@v3
 
-      - name: Prepare version folder
-        run: |
-          VERSION="v${{ github.event.release.tag_name }}"
-          mkdir -p _site/$VERSION
-          cp -R index.html en ru _site/$VERSION/
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        -name: Setups
+        uses: actions/setup-python@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-          keep_files: true
+              python-version: "3.9"
+
+    check:
+        runs-on: ubuntu-latest
+
+        steps:
+          -name: Files view
+          run: dir ./*
+          
+          -name: Check succes
+          needs: setup
+          run: echo "all good"
+          
