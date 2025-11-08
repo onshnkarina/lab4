@@ -21,7 +21,7 @@ jobs:
         
       steps:
       - name: Files view
-        run: dir -p
+        run: dir -p ./
       
           
           
