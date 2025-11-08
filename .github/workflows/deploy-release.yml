@@ -23,7 +23,4 @@ jobs:
       - name: Files view
         run: dir ./*
           
-      - name: Check succes
-        needs: setup
-        run: echo "all good"
           
