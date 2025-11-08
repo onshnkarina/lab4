@@ -9,7 +9,7 @@ jobs:
     
     steps:
     - name: Checkout
-      uses: actions/cheackout@v3
+      uses: actions/checkout@v3
     
     - name: Set
       uses: actions/setup-python@v4
